@@ -16,6 +16,9 @@ if (loading) {
 if(!session) {
     router.push('/')
 }
+    if(session && !session.user.name){
+        router.push('/setup')
+}
 return (
 <>
     <NewTweet/>
