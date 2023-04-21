@@ -3,6 +3,7 @@ import { useState } from 'react'
 export default function NewTweet() {
   const { data: session } = useSession()
   const [content, setContent ] = useState('')
+  const router = useRouter
   if(!session || !session.user) return null
 
   return(
