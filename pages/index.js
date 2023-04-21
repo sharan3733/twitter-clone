@@ -16,13 +16,18 @@ export default function Home() {
     router.push('/home')
 
   }
-
   return (
-    <main className="flex min-h-screen flex-col items-center  p-24">
-<h1>Home page</h1>
-
-
-<a href='/api/auth/signin'>Login</a>
-    </main>
+		<div className='mt-10'>
+      <div className='text-center p-4 border m-4'>
+        <h2 className='mb-10'>Join the conversation!</h2>
+        <a
+          className='border px-8 py-2 mt-5 font-bold rounded-full color-accent-contrast bg-color-accent hover:bg-color-accent-hover-darker'
+          href='/api/auth/signin'
+        >
+          login
+        </a>
+      </div>
+    </div>  
   )
+
 }
