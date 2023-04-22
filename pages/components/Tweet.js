@@ -3,46 +3,37 @@ import timeago from 'lib/timeago'
 import Link from 'next/link'
 
 export default function Tweet({ tweet }) {
+  if (!tweet) return
   return (
-    <div className='mb-4'>
-      <div className='flex flex-shrink-0 p-4 pb-0'>
-        <div className='flex-shrink-0 block group'>
-          <div className='flex items-center'>
-            <div>
-              {tweet.author.image && (
-                <Image
-                  className='rounded-full'
-                  src={tweet.author.image}
-                  alt=''
-                  width='40'
-                  height='40'
-                />
-              )}
-            </div>
-            <div className='ml-3 -mt-6'>
-              <p className=''>
-                <Link href={`/${tweet.author.name}`}>
-                
-                  <span className='text-base font-medium leading-6 color-primary hover:underline'>
-                    {tweet.author.name}
-                  </span>
-                  </Link>
-                
-                <span className='pl-1 text-sm font-light leading-5 color-dimmed'>
-                  <Link href={`/${tweet.author.name}/status/${tweet.id}`} className='hover:underline'>
-                    {timeago.format(new Date(tweet.createdAt))}
-                  </Link>
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className='pl-16 -mt-6'>
-        <p className='flex-shrink pl-1 pr-2 text-base font-normal color-primary width-auto'>
-          {tweet.content}
+    <>
+      <div className='card border m-3 rounded px-2 py-5'>
+        <p>
+          {tweet.author.image && (
+            <Image
+              className='rounded-full'
+              src={tweet.author.image}
+              alt=''
+              width='40'
+              height='40'
+            />
+          )}
         </p>
+       
+
+        <p className='float-right'>
+        <Link href={`/${tweet.author.name}/status/${tweet.id}`} className='hover:underline'>
+          {timeago.format(new Date(tweet.createdAt))}
+        </Link>
+        </p>
+        <small className='hover:text-blue-600'>
+          <Link href={`/${tweet.author.name}`}>
+              @{tweet.author.name}
+          
+          </Link>
+        </small>
+        <p>{tweet.content}</p>
       </div>
-    </div>
+    </>
+
   )
 }
