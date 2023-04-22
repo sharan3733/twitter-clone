@@ -1,10 +1,12 @@
+import NewReply from '@/pages/components/NewReply'
 import Tweet from '@/pages/components/Tweet'
-import { getTweet } from 'lib/data.js'
+import { getTweet, getReplies } from 'lib/data.js'
 import prisma from 'lib/prisma'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import Tweets from '@/pages/components/Tweets'
 
-export default function SingleTweet({ tweet }) {
+export default function SingleTweet({ tweet, replies }) {
     const { data: session, status } = useSession()
     const router = useRouter()
 
@@ -12,6 +14,11 @@ export default function SingleTweet({ tweet }) {
         router.push('/home')
         return
     }
+    if (typeof window !== 'undefined' && tweet.parent) {
+		router.push(`/${tweet.parent_data.author.name}/status/${tweet.parent}`)
+  }
+
+    
     return (
         <div>
             <Tweet tweet={tweet} />
@@ -42,9 +49,13 @@ export default function SingleTweet({ tweet }) {
                     >
                         delete
                     </a>
+                    
                 </div>
             )}
+            <NewReply tweet={tweet}/>
+            <Tweets tweets={replies} nolink={true}/>
         </div>
+       
     )
 }
 
@@ -52,9 +63,13 @@ export async function getServerSideProps({ params }) {
     let tweet = await getTweet(params.id, prisma)
     tweet = JSON.parse(JSON.stringify(tweet))
 
+    let replies = await getReplies(params.id, prisma)
+    replies = JSON.parse(JSON.stringify(replies))
+
     return {
         props: {
             tweet,
+            replies
         },
     }
 }
